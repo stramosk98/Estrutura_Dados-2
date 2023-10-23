@@ -1,6 +1,7 @@
-package Arvore_Balanceada;
+package Arvore;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class ArvoreAVL {
@@ -89,7 +90,7 @@ public class ArvoreAVL {
 	private Nodo rotacao_esquerda(Nodo raiz) {
 		Nodo aux1, aux2;
 		aux1 = raiz.dir;
-		aux2 = raiz.esq;
+		aux2 = aux1.esq;
 		raiz.dir = aux2;
 		aux1.esq = raiz;
 		if(raiz.dir == null) {
@@ -153,6 +154,9 @@ public class ArvoreAVL {
 	}
 	
 	public void mostrarOrdem() {
+		if(raiz == null) {
+			System.out.println("Árvore vazia");
+		}
 		mostrandoOrdenado(raiz);
 	}
 	
@@ -161,8 +165,34 @@ public class ArvoreAVL {
 			mostrandoOrdenado(raiz.esq);
 			System.out.println(raiz.dado + "[" + raiz.count + "] ");
 			mostrandoOrdenado(raiz.dir);
-		}
+		} 
 	}
+	
+	public Nodo buscar(int chave) {
+	    long tInicial = System.currentTimeMillis();
+	    Nodo resultado = buscar(raiz, chave, tInicial);
+	    if (resultado == null) {
+	        System.out.println("Tempo árvore-B para buscar: " + (System.currentTimeMillis() - tInicial) + " ms");
+	    }
+	    return resultado;
+	}
+
+	private Nodo buscar(Nodo raiz, int chave, long tInicial) {
+	    if (raiz == null) {
+	        return null; // Chave não encontrada
+	    }
+
+	    if (chave == raiz.dado) {
+	        return raiz; // Chave encontrada na raiz
+	    }
+
+	    if (chave < raiz.dado) {
+	        return buscar(raiz.esq, chave, tInicial); // Procurar na subárvore esquerda
+	    } else {
+	        return buscar(raiz.dir, chave, tInicial); // Procurar na subárvore direita
+	    }
+	}
+
 	
 	public void remover(int dado) {
 		raiz = removerDado(raiz, dado);
@@ -170,6 +200,9 @@ public class ArvoreAVL {
 
 	private Nodo removerDado(Nodo raiz, int dado) {
 		Nodo aux1, aux2;
+		if(raiz == null) {
+			return null;
+		}
 		if (raiz.dado == dado) {
 			if (raiz.esq == null && raiz.dir == null) {
 				return null;
@@ -309,6 +342,22 @@ public class ArvoreAVL {
 	    int alturaDir = altura(raiz.dir);
 
 	    return Math.max(alturaEsq, alturaDir) + 1;
+	}
+	
+	public void executaPerformanceInserir(int n, List<Integer> lista) {
+		long tInicial = System.currentTimeMillis();
+		for(int i = 0; i < lista.size(); i++) {
+			this.inserir(lista.get(i));
+		}
+		System.out.println("Tempo árvore-Avl para inserir: " + (System.currentTimeMillis() - tInicial) + " ms");
+	}
+	
+	public void executaPerformanceRemover(int n, List<Integer> lista) {
+		long tInicial = System.currentTimeMillis();
+		for(int j = 0; j < n; j++) {
+			this.remover(lista.get(j));
+		}
+		System.out.println("Tempo árvore-Avl para remover: " + (System.currentTimeMillis() - tInicial) + " ms");
 	}
 
 }

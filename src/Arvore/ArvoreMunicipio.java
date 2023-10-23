@@ -1,4 +1,4 @@
-package Arvore_Balanceada;
+package Arvore;
 
 class Municipio {
     String nome;
@@ -12,12 +12,12 @@ class Municipio {
     }
 }
 
-class Nodo {
+class Node {
     Municipio municipio;
-    Nodo esq, dir;
+    Node esq, dir;
     int countMunicipios;
 
-    public Nodo(Municipio municipio) {
+    public Node(Municipio municipio) {
         this.municipio = municipio;
         dir = esq = null;
         countMunicipios = 0;
@@ -25,7 +25,7 @@ class Nodo {
 }
 
 public class ArvoreMunicipio {
-    private Nodo raiz;
+    private Node raiz;
 
     public ArvoreMunicipio() {
         raiz = null;
@@ -35,9 +35,9 @@ public class ArvoreMunicipio {
         raiz = inserir(raiz, municipio);
     }
 
-    private Nodo inserir(Nodo nodo, Municipio municipio) {
+    private Node inserir(Node nodo, Municipio municipio) {
         if (nodo == null) {
-            return new Nodo(municipio);
+            return new Node(municipio);
         }
 
         int comparacao = municipio.nome.compareTo(nodo.municipio.nome);
@@ -55,7 +55,7 @@ public class ArvoreMunicipio {
 		mostrandoOrdenado(raiz);
 	}
 	
-	private void mostrandoOrdenado(Nodo raiz) {
+	private void mostrandoOrdenado(Node raiz) {
 		if(raiz != null) {
 			mostrandoOrdenado(raiz.esq);
 			System.out.println(raiz.municipio.nome + " - " + raiz.municipio.areaTotalKm2 + " - " + raiz.municipio.populacao);
@@ -67,7 +67,7 @@ public class ArvoreMunicipio {
 	   return contarMunicipios(raiz);
 	}
 
-	private int contarMunicipios(Nodo raiz) {
+	private int contarMunicipios(Node raiz) {
 	    if (raiz == null) {
 	        return 0;
 	    }
@@ -81,7 +81,7 @@ public class ArvoreMunicipio {
 		mostrarDensidade(raiz);
 	}
 	
-	private void mostrarDensidade(Nodo raiz) {
+	private void mostrarDensidade(Node raiz) {
 		float densidade = 0;
 		if(raiz != null) {
 			mostrarDensidade(raiz.esq);
@@ -96,7 +96,7 @@ public class ArvoreMunicipio {
 		mostrarMaiorPopulacaoQue(raiz, valor);
 	}
 	
-	private void mostrarMaiorPopulacaoQue(Nodo raiz, float valor) {
+	private void mostrarMaiorPopulacaoQue(Node raiz, float valor) {
 		if(raiz != null) {
 			mostrarMaiorPopulacaoQue(raiz.esq, valor);
 			if(raiz.municipio.populacao >= valor) {
@@ -117,7 +117,7 @@ public class ArvoreMunicipio {
 	    System.out.println(resultado.cidade);
 	}
 
-	private void mostrarMaiorPopulacao(Nodo raiz, MaiorPopulacaoResultado resultado) {
+	private void mostrarMaiorPopulacao(Node raiz, MaiorPopulacaoResultado resultado) {
 	    if (raiz == null) {
 	        return;
 	    }
@@ -143,7 +143,7 @@ public class ArvoreMunicipio {
 		System.out.println("Porcentagem em relação ao território nacional:  " + resultado.porcNacional + "%");
 	}
 	
-	private void MostrarPorcEmRelacaoTerritNacional(Nodo raiz, SomatorioAreaKm2 resultado) {
+	private void MostrarPorcEmRelacaoTerritNacional(Node raiz, SomatorioAreaKm2 resultado) {
 		if (raiz == null) {
 			return;
 		}
